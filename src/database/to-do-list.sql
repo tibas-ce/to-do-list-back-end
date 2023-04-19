@@ -1,3 +1,4 @@
+-- Active: 1681797270904@@127.0.0.1@3306
 
 CREATE TABLE users (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -9,16 +10,16 @@ CREATE TABLE users (
 CREATE TABLE tasks (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     title TEXT NOT NULL,
-		description TEXT NOT NULL,
-		created_at TEXT DEFAULT (DATETIME()) NOT NULL,
-		status INTEGER DEFAULT (0) NOT NULL
+	description TEXT NOT NULL,
+	created_at TEXT DEFAULT (DATETIME()) NOT NULL,
+	status INTEGER DEFAULT (0) NOT NULL
 );
 
 CREATE TABLE users_tasks (
-		user_id TEXT NOT NULL,
-		task_id TEXT NOT NULL,
-		FOREIGN KEY (user_id) REFERENCES users (id),
-		FOREIGN KEY (task_id) REFERENCES tasks (id)
+	user_id TEXT NOT NULL,
+	task_id TEXT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (id),
+	FOREIGN KEY (task_id) REFERENCES tasks (id)
 );
 
 INSERT INTO users (id, name, email, password)
@@ -43,3 +44,15 @@ VALUES
 SELECT * FROM users;
 SELECT * FROM tasks;
 SELECT * FROM users_tasks;
+
+SELECT * FROM users_tasks
+INNER JOIN users
+ON users_tasks.user_id = users.id
+RIGHT JOIN tasks
+ON users_tasks.task_id = task_id;
+
+SELECT * FROM tasks
+LEFT JOIN users_tasks
+ON users_tasks.task_id = tasks.id
+LEFT JOIN users
+ON users_tasks.user_id = users.id;
