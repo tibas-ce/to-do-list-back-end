@@ -131,6 +131,7 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
             throw new Error("'id' não encontrado")
         }
 
+        await db("users_tasks").del().where({ user_id: IdToDelete })
         await db("users").del().where({ id: IdToDelete })
         res.status(200).send({ message: "User deletado com sucesso" })
     } catch (error) {
@@ -325,7 +326,7 @@ app.delete("/tasks/:id", async (req: Request, res: Response) => {
             res.status(404)
             throw new Error("'id' não encontrado")
         }
-
+        await db("users_tasks").del().where({ task_id: IdToDelete })
         await db("tasks").del().where({ id: IdToDelete })
         res.status(200).send({ message: "Task deletado com sucesso" })
     } catch (error) {
